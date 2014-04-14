@@ -1,4 +1,8 @@
 import java.awt.Graphics;
+import java.lang.Math;
+import java.awt.Graphics2D;
+import java.awt.geom.Ellipse2D;
+import java.lang.Object;
 public class NewSwingUI implements UIContext {
   private Graphics graphics;
   private static NewSwingUI swingUI;
@@ -40,6 +44,53 @@ public class NewSwingUI implements UIContext {
       graphics.drawLine(i1, i2, i3, i4);
     }
   }
+  
+  public void draw(Ellipse ellipse){
+      Graphics2D graphics2d = (Graphics2D) graphics;
+      
+      int i1 = 0, i2 = 0, i3 = 0, i4 = 0;
+      int a = 0, b = 0;
+      
+      
+    if (ellipse.getPoint1() != null) {
+      
+      i1 = Math.round((float) (ellipse.getPoint1().getX()));
+      i2 = Math.round((float) (ellipse.getPoint1().getY()));
+      if (ellipse.getPoint2() != null) {
+        i3 = Math.round((float) (ellipse.getPoint2().getX()));
+        i4 = Math.round((float) (ellipse.getPoint2().getY()));
+        
+        if(i3 > i1 && i4 > i2){// Top left to bottom right
+            graphics2d.draw(new Ellipse2D.Double(i1,i2,i3-i1,i4-i2));
+            //graphics.drawLine(i1, i2, i1, i4);          //Tinker (Debug)
+        }
+        else if(i1 > i3 && i2 > i4){                  //Bottom right to top left
+            graphics2d.draw(new Ellipse2D.Double(i3,i4,i1-i3,i2-i4));
+            
+        } //else if bottom left to top right
+        else if (i1 < i3 && i2 > i4){
+            //graphics.drawLine(i1, i2, i1, i4);   
+            graphics2d.draw(new Ellipse2D.Double(i1,i4,i3-i1,i2-i4));
+        }//else if top right to bottom left
+        else if (i1 > i3 && i2 < i4){ //if (i1 < i3 && i2 < i4){
+            //graphics.drawLine(i1, i2, i3, i2);   
+            graphics2d.draw(new Ellipse2D.Double(i3,i2,i1-i3,i4-i2));
+        }
+        else System.out.println("Error?");
+        
+        
+        
+      } else {
+        i3 = i1;
+        i4 = i2;
+        graphics.drawLine(i1, i2, i3, i4);           //Draws single point
+      }
+
+    }
+    
+    
+    
+  }//End of draw ellipse
   public void draw(Item item) {
     System.out.println( "Cant draw unknown Item \n");
   }

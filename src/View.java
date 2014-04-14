@@ -7,6 +7,7 @@ class View extends JFrame {
   private JPanel drawingPanel;
   private JPanel buttonPanel;
   private JPanel filePanel;
+  private JButton ellipseButton;
   private JButton lineButton;
   private JButton deleteButton;
   private JButton labelButton;
@@ -91,14 +92,16 @@ class View extends JFrame {
     contentpane.add(buttonPanel, "North");
     contentpane.add(drawingPanel);
     lineButton= new LineButton(undoManager, this, drawingPanel);
+    ellipseButton = new EllipseButton(undoManager,this,drawingPanel);
     labelButton = new LabelButton(undoManager, this, drawingPanel);
-    selectButton= new SelectButton(undoManager, this, drawingPanel);
-    deleteButton= new DeleteButton(undoManager);
-    saveButton= new SaveButton(undoManager, this);
-    openButton= new OpenButton(undoManager, this);
+    selectButton = new SelectButton(undoManager, this, drawingPanel);
+    deleteButton = new DeleteButton(undoManager);
+    saveButton = new SaveButton(undoManager, this);
+    openButton = new OpenButton(undoManager, this);
     undoButton = new UndoButton(undoManager);
     redoButton = new RedoButton(undoManager);
     buttonPanel.add(lineButton);
+    buttonPanel.add(ellipseButton);
     buttonPanel.add(labelButton);
     buttonPanel.add(selectButton);
     buttonPanel.add(deleteButton);
