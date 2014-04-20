@@ -10,7 +10,7 @@ import java.awt.Point;
 
 /**
  *
- * @author edorphy
+ * @author Brandon Theisen
  */
 public class EllipseCommand extends Command{
 /*
@@ -37,18 +37,26 @@ public class EllipseCommand extends Command{
         }
     public EllipseCommand(Point point) {
         this(point, null);
-        pointCount = 1;
+        //pointCount = 1;
     }
     public EllipseCommand(Point point1, Point point2) {
         ellipse = new Ellipse(point1, point2);
-        pointCount = 2;
+        //pointCount = 2;
     }
     public void setEllipsePoint(Point point) {
-        if (++pointCount == 1) {
+        //System.out.println("pointCount = " + pointCount);
+        if (pointCount == 0) {
+        //    System.out.println("setEllipsePoint if");
+            pointCount++;
             ellipse.setPoint1(point);
-        } else if (pointCount == 2) {
+            
+        } else if (pointCount == 1) {
+        //    System.out.println("setEllipsePoint else");
             ellipse.setPoint2(point);
+        //    System.out.println(ellipse.toString());
+            
         }
+        
     }
     public void execute() {
         model.addItem(ellipse);

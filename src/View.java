@@ -115,6 +115,8 @@ class View extends JFrame {
     // code to access the Model update the contents of the drawing panel.
     drawingPanel.repaint();
   }
+  
+
   public static Point mapPoint(Point point){
     // maps a point on the drawing panel to a point
     // on the figure being created. Perhaps this

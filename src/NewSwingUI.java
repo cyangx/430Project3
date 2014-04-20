@@ -50,8 +50,23 @@ public class NewSwingUI implements UIContext {
       
       int i1 = 0, i2 = 0, i3 = 0, i4 = 0;
       int a = 0, b = 0;
+    /*if (ellipse.getPoint1() != null) {
+      i1 = Math.round((float) (ellipse.getPoint1().getX()));
+      i2 = Math.round((float) (ellipse.getPoint1().getY()));
+      System.out.println("i1 = " + i1 + " i2 = " + i2);
+      if (ellipse.getPoint2() != null) {
+        i3 = Math.round((float) (ellipse.getPoint2().getX()));
+        i4 = Math.round((float) (ellipse.getPoint2().getY()));
+        System.out.println("i1 = " + i3 + " i2 = " + i4);
+        graphics.drawLine(i1, i2, i3, i4);
+      } else {
+        i3 = i1;
+        i4 = i2;
+        graphics.drawLine(i1, i2, i3, i4);
+      }//End of outer if getPoint1
+    }*/
       
-      
+ //Working normal code     
     if (ellipse.getPoint1() != null) {
       
       i1 = Math.round((float) (ellipse.getPoint1().getX()));
@@ -60,7 +75,7 @@ public class NewSwingUI implements UIContext {
         i3 = Math.round((float) (ellipse.getPoint2().getX()));
         i4 = Math.round((float) (ellipse.getPoint2().getY()));
         
-        if(i3 > i1 && i4 > i2){// Top left to bottom right
+        if(i3 >= i1 && i4 >= i2){// Top left to bottom right
             graphics2d.draw(new Ellipse2D.Double(i1,i2,i3-i1,i4-i2));
             //graphics.drawLine(i1, i2, i1, i4);          //Tinker (Debug)
         }
@@ -68,15 +83,15 @@ public class NewSwingUI implements UIContext {
             graphics2d.draw(new Ellipse2D.Double(i3,i4,i1-i3,i2-i4));
             
         } //else if bottom left to top right
-        else if (i1 < i3 && i2 > i4){
+        else if (i1 <= i3 && i2 >= i4){
             //graphics.drawLine(i1, i2, i1, i4);   
             graphics2d.draw(new Ellipse2D.Double(i1,i4,i3-i1,i2-i4));
         }//else if top right to bottom left
-        else if (i1 > i3 && i2 < i4){ //if (i1 < i3 && i2 < i4){
+        else if (i1 >= i3 && i2 <= i4){ //if (i1 < i3 && i2 < i4){
             //graphics.drawLine(i1, i2, i3, i2);   
             graphics2d.draw(new Ellipse2D.Double(i3,i2,i1-i3,i4-i2));
         }
-        else System.out.println("Error?");
+        //else System.out.println("Error?");
         
         
         
@@ -85,12 +100,10 @@ public class NewSwingUI implements UIContext {
         i4 = i2;
         graphics.drawLine(i1, i2, i3, i4);           //Draws single point
       }
-
     }
-    
-    
-    
   }//End of draw ellipse
+  
+  
   public void draw(Item item) {
     System.out.println( "Cant draw unknown Item \n");
   }
