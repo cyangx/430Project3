@@ -1,28 +1,70 @@
+
+import java.awt.*;
+import java.text.*;
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * @author Cha Yang
  */
 
-/**
- *
- * @author edorphy
- */
-public class PolygonCommand extends Command{
+public class PolygonCommand extends Command {
 
-    @Override
-    public boolean undo() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private Polygon poly;
+    private int pointCount;
+
+    public PolygonCommand() {
+        this(null);
+        pointCount = 0;
     }
 
-    @Override
-    public boolean redo() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public PolygonCommand(Point point) {
+        poly = new Polygon(point);
+        pointCount++;
+    }
+
+    public void setPolyPoint(Point point) {
+        // small square
+        Rectangle _r;
+        _r = new Rectangle(poly.getFirstPoint().x - 5, poly.getFirstPoint().y - 5, 10, 10);
+
+        if (++pointCount == 1) {
+            poly.setFirstPoint(point);
+        } else if (pointCount > 1) {
+            // if the new point is inside the small square
+            if (_r.contains(point)) {
+                poly.done();
+                point = poly.getFirstPoint();
+            }
+            poly.setNextPoint(point);
+        }
+    }
+
+    public Polygon getPoly() {
+        return poly;
     }
 
     @Override
     public void execute() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        model.addItem(poly);
     }
-    
+
+    @Override
+    public boolean undo() {
+        model.removeItem(poly);
+        return true;
+    }
+
+    @Override
+    public boolean redo() {
+        execute();
+        return true;
+    }
+
+    @Override
+    public boolean end() {
+        if (poly.getFirstPoint() == null) {
+            undo();
+            return false;
+        }
+
+        return true;
+    }
 }

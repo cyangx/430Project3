@@ -1,21 +1,76 @@
-
-import java.awt.Point;
-
+import java.awt.*;
+import java.util.*;
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * @author Cha Yang
  */
 
-/**
- *
- * @author edorphy
- */
-public class Polygon extends Item{
+public class Polygon extends Item {
 
-    @Override
-    public boolean includes(Point point) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private Stack points;
+    private Point firstPoint;
+    private Point prevPoint;
+    private Point currentPoint;   
+    private boolean polyDone;
+
+    public Polygon(Point point1) {
+        this();
+        setFirstPoint(point1);
+        prevPoint = point1;
+        points.push(point1);
+        polyDone = false;
     }
-    
+
+    public Polygon() {
+        points = new Stack();
+    }
+
+    public boolean includes(Point point) {
+        return ((distance(point, firstPoint) < 10.0) || (distance(point, prevPoint) < 10.0));
+    }
+
+    public void render() {
+        uiContext.draw(this);
+    }
+
+    public void setFirstPoint(Point point) {
+        firstPoint = point;
+    }
+
+    public void done() {
+        polyDone = true;
+    }
+
+    public boolean isdone() {
+        return polyDone;
+    }
+
+    public void setNextPoint(Point point) {
+        prevPoint = currentPoint;
+        //System.out.println("prevPoint:" + prevPoint);
+        points.push(point);
+    }
+
+    public Stack getPolyPoints() {
+        return points;
+    }
+
+    public void setCurrentPoint(Point point) {
+        currentPoint = point;
+    }
+
+    public Point getCurrentPoint() {
+        return currentPoint;
+    }
+
+    public Point getFirstPoint() {
+        return firstPoint;
+    }
+
+    public Point getprevPoint() {
+        return prevPoint;
+    }
+
+    public String toString() {
+        return "Polygon  from " + firstPoint + " to " + prevPoint;
+    }
 }
