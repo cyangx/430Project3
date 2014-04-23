@@ -8,7 +8,7 @@ public class Line extends Item {
 
     public Line(Point point1, Point point2) {
         this.point1 = point1;
-        this.point2 = point2;
+        this.point2 = point2;  
     }
 
     public Line(Point point1) {
@@ -16,6 +16,7 @@ public class Line extends Item {
     }
 
     public Line() {
+        
     }
 
     @Override
@@ -47,5 +48,14 @@ public class Line extends Item {
     @Override
     public String toString() {
         return "Line  from " + point1 + " to " + point2;
+    }
+
+    @Override
+    public void move(int x, int y) {
+        point1.x += x;
+        point1.y += y;
+        
+        point2.x += x;
+        point2.y += y;
     }
 }

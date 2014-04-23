@@ -42,6 +42,18 @@ public class Model {
             view.refresh();
         }
     }
+    
+    public void moveSelectedItems(int x, int y) {
+        // for each item in the selected list
+        
+        Enumeration enumeration = selectedList.elements();
+        while (enumeration.hasMoreElements()) {
+            Item item = (Item) (enumeration.nextElement());
+            item.move(x, y);
+        }
+        
+        view.refresh();
+    }
 
     public void deleteSelectedItems() {
         selectedList.removeAllElements();

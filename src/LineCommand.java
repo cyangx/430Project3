@@ -18,6 +18,7 @@ public class LineCommand extends Command {
 
     public LineCommand(Point point1, Point point2) {
         line = new Line(point1, point2);
+        
         pointCount = 2;
     }
 

@@ -77,4 +77,20 @@ public class Polygon extends Item {
     public String toString() {
         return "Polygon  from " + firstPoint + " to " + prevPoint;
     }
+
+    @Override
+    public void move(int x, int y) {
+        
+        Stack temp = new Stack();
+        while (!points.isEmpty()) {
+            temp.push(points.pop());            
+        }
+        
+        while (!temp.isEmpty()) {
+            Point tempPt = (Point) temp.pop();
+            tempPt.x += x;
+            tempPt.y += y;
+            points.push(tempPt);
+        }
+    }
 }

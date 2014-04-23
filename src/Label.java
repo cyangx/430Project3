@@ -37,4 +37,10 @@ public class Label extends Item {
     public Point getStartingPoint() {
         return startingPoint;
     }
+
+    @Override
+    public void move(int x, int y) {
+        startingPoint.x += x;
+        startingPoint.y += y;
+    }
 }
