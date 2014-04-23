@@ -1,6 +1,5 @@
 
 import java.awt.*;
-import java.text.*;
 /*
  * @author Cha Yang
  */

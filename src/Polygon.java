@@ -1,3 +1,4 @@
+
 import java.awt.*;
 import java.util.*;
 /*
@@ -9,7 +10,7 @@ public class Polygon extends Item {
     private Stack points;
     private Point firstPoint;
     private Point prevPoint;
-    private Point currentPoint;   
+    private Point currentPoint;
     private boolean polyDone;
 
     public Polygon(Point point1) {
@@ -24,10 +25,12 @@ public class Polygon extends Item {
         points = new Stack();
     }
 
+    @Override
     public boolean includes(Point point) {
         return ((distance(point, firstPoint) < 10.0) || (distance(point, prevPoint) < 10.0));
     }
 
+    @Override
     public void render() {
         uiContext.draw(this);
     }
@@ -70,6 +73,7 @@ public class Polygon extends Item {
         return prevPoint;
     }
 
+    @Override
     public String toString() {
         return "Polygon  from " + firstPoint + " to " + prevPoint;
     }

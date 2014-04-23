@@ -4,8 +4,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.geom.Ellipse2D;
-import java.lang.Math;
-import java.lang.Object;
 import java.util.Stack;
 
 public class NewSwingUI implements UIContext {
@@ -27,6 +25,7 @@ public class NewSwingUI implements UIContext {
         this.graphics = graphics;
     }
 
+    @Override
     public void draw(Label label) {
         if (label.getStartingPoint() != null) {
             if (label.getText() != null) {
@@ -37,6 +36,7 @@ public class NewSwingUI implements UIContext {
         graphics.drawString("_", (int) label.getStartingPoint().getX() + length, (int) label.getStartingPoint().getY());
     }
 
+    @Override
     public void draw(Line line) {
         int i1 = 0;
         int i2 = 0;
@@ -56,6 +56,7 @@ public class NewSwingUI implements UIContext {
         }
     }
 
+    @Override
     public void draw(Ellipse ellipse) {
         Graphics2D graphics2d = (Graphics2D) graphics;
 
@@ -164,6 +165,7 @@ public class NewSwingUI implements UIContext {
         }
     }
 
+    @Override
     public void draw(Item item) {
         System.out.println("Cant draw unknown Item \n");
     }

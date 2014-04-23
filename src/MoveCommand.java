@@ -8,7 +8,7 @@
  *
  * @author edorphy
  */
-public class MoveCommand extends Command{
+public class MoveCommand extends Command {
 
     @Override
     public boolean undo() {
@@ -24,5 +24,5 @@ public class MoveCommand extends Command{
     public void execute() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
 }
