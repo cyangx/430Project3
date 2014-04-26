@@ -61,22 +61,7 @@ public class NewSwingUI implements UIContext {
         Graphics2D graphics2d = (Graphics2D) graphics;
 
         int i1 = 0, i2 = 0, i3 = 0, i4 = 0;
-        int a = 0, b = 0;
-        /*if (ellipse.getPoint1() != null) {
-         i1 = Math.round((float) (ellipse.getPoint1().getX()));
-         i2 = Math.round((float) (ellipse.getPoint1().getY()));
-         System.out.println("i1 = " + i1 + " i2 = " + i2);
-         if (ellipse.getPoint2() != null) {
-         i3 = Math.round((float) (ellipse.getPoint2().getX()));
-         i4 = Math.round((float) (ellipse.getPoint2().getY()));
-         System.out.println("i1 = " + i3 + " i2 = " + i4);
-         graphics.drawLine(i1, i2, i3, i4);
-         } else {
-         i3 = i1;
-         i4 = i2;
-         graphics.drawLine(i1, i2, i3, i4);
-         }//End of outer if getPoint1
-         }*/
+        
 
         //Working normal code     
         if (ellipse.getPoint1() != null) {

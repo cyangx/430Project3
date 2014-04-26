@@ -15,18 +15,20 @@ public class EllipseButton extends JButton implements ActionListener {
     protected JPanel drawingPanel;
     protected View view;
     private EllipseButton.MouseHandler mouseHandler;
+    private KeyHandler keyHandler;
     private EllipseCommand ellipseCommand;
     private UndoManager undoManager;
 
     public EllipseButton(UndoManager undoManager, View jFrame, JPanel jPanel) {
         super("Ellipse");
-
+        
         this.undoManager = undoManager;
         addActionListener(this);
 
         view = jFrame;
         drawingPanel = jPanel;
         mouseHandler = new EllipseButton.MouseHandler();
+        keyHandler = new KeyHandler();
     }
 
     @Override
@@ -37,6 +39,10 @@ public class EllipseButton extends JButton implements ActionListener {
         drawingPanel.addMouseListener(mouseHandler);
         drawingPanel.addMouseMotionListener(mouseHandler);
         // Start listening for mouseclicks on the drawing panel
+        
+        drawingPanel.addFocusListener(keyHandler);
+        drawingPanel.requestFocusInWindow();
+        drawingPanel.addKeyListener(keyHandler);
     }//End of actionPerformed
 
     private class MouseHandler extends MouseAdapter implements MouseListener, MouseMotionListener {
@@ -61,10 +67,12 @@ public class EllipseButton extends JButton implements ActionListener {
 
         @Override
         public void mousePressed(MouseEvent event) {
+            drawingPanel.removeKeyListener(keyHandler);
             point1 = event.getPoint();
 
             //    System.out.println("MousePressed at " + point1);
             ellipseCommand = new EllipseCommand(View.mapPoint(event.getPoint()));
+            ellipseCommand.setEllipsePoint(View.mapPoint(point1));
             undoManager.beginCommand(ellipseCommand);
             curX = point1.x;
             curY = point1.y;
@@ -75,12 +83,11 @@ public class EllipseButton extends JButton implements ActionListener {
         public void mouseReleased(MouseEvent event) {
             point2 = event.getPoint();
             dragging = false;
-            ellipseCommand.setEllipsePoint(View.mapPoint(point1));
+            
             ellipseCommand.setEllipsePoint(View.mapPoint(point2));
             view.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
             undoManager.endCommand(ellipseCommand);
-            //System.out.println("Mouse released at: " + point2);
-            //System.out.println("Drawn ellipse area is : " + sX + "," + sY + " to " + curX + "," + curY);
+
             drawingPanel.removeMouseListener(this);
             drawingPanel.removeMouseMotionListener(this);
 
@@ -94,43 +101,41 @@ public class EllipseButton extends JButton implements ActionListener {
 
             point2 = event.getPoint();
 
-            ellipseCommand.setEllipsePoint(View.mapPoint(point1));
             ellipseCommand.setEllipsePoint(View.mapPoint(point2));
 
             view.repaint();
 
-            //Debuggery purposes
-            /*curX = point.x;
-             curY = point.y;
-             System.out.println("Dragging, x = " + curX + " y = " + curY);
-             //System.out.println("Dragging, x = " + curX + " y = " + curY);
-             if(dragging){
-             System.out.println("Dragging, x = " + curX + " y = " + curY);
-             view.refresh();
-             view.repaint();
-             repaint();
-             }*/
         }//End of mouseDragged
 
         @Override
         public void mouseMoved(MouseEvent event) {
         }
-
-        /*//Working code
-         private int pointCount = 0;  
-         public void mouseClicked(MouseEvent event) {
-         if (++pointCount == 1) {
-         ellipseCommand = new EllipseCommand(View.mapPoint(event.getPoint()));
-         System.out.println("event.getPoint: " + event.getPoint());
-         undoManager.beginCommand(ellipseCommand);
-         } else if (pointCount == 2) {
-         pointCount = 0;
-         ellipseCommand.setEllipsePoint(View.mapPoint(event.getPoint()));
-         System.out.println("event.getPoint: " + event.getPoint());
-         drawingPanel.removeMouseListener(this);
-         view.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-         undoManager.endCommand(ellipseCommand);
-         }
-         }*/
-    }//ENd of Mouse Handler
+        
+    }//End of Mouse Handler
+    private class KeyHandler extends KeyAdapter implements FocusListener {
+        @Override
+        public void keyPressed(KeyEvent event) {
+            if (event.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                view.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+                drawingPanel.removeMouseListener(mouseHandler);
+                drawingPanel.removeKeyListener(keyHandler);
+                view.refresh();
+            } 
+        }
+        
+        @Override
+        public void focusLost(FocusEvent event) {
+            view.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+            drawingPanel.removeMouseListener(mouseHandler);
+            //undoManager.endCommand(labelCommand);
+            drawingPanel.removeKeyListener(keyHandler);
+            //undoManager.endCommand(labelCommand);
+            view.refresh();
+        }
+        
+        @Override
+        public void focusGained(FocusEvent event) {
+            drawingPanel.addKeyListener(this);
+        }
+    }
 }
