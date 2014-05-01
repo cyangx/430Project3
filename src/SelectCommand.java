@@ -5,21 +5,49 @@ import java.util.*;
 public class SelectCommand extends Command {
 
     private Item item;
+    private boolean commandEnd = false;
 
     public SelectCommand() {
-    }
-
-    public void setPoint(Point point) {
         Enumeration enumeration = model.getItems();
         while (enumeration.hasMoreElements()) {
             item = (Item) (enumeration.nextElement());
-            if (item.includes(point)) {
-                model.markSelected(item);
-                break;
-            }
+            item.setSelection(true);
+        }
+        Enumeration enumeration1 = model.getSelectedItems();
+        while (enumeration1.hasMoreElements()) {
+            item = (Item) (enumeration1.nextElement());
+            item.setSelection(true);
         }
     }
 
+    public void endSelect(boolean cmd){
+        this.commandEnd = cmd;
+    }
+    
+    public void setPoint(Point point) {
+        boolean flag = false;                       
+        Enumeration enumeration1 = model.getSelectedItems();
+        while (enumeration1.hasMoreElements()) {
+            item = (Item) (enumeration1.nextElement());
+            item.setSelection(false);
+            if (item.includes(point)) {
+                model.unSelect(item);       // unselect item if it was already selected
+                flag = true;
+                //break;
+            }
+        }
+        Enumeration enumeration = model.getItems();
+        while (enumeration.hasMoreElements()) {
+            item = (Item) (enumeration.nextElement());
+            item.setSelection(false);
+            if (item.includes(point) && flag == false) { // check flag to make sure you dont select the point 
+                                                         // again that you just unselected
+                model.markSelected(item);       // select item 
+                //break;
+            }
+        }
+    }
+    
     @Override
     public boolean undo() {
         model.unSelect(item);
@@ -34,6 +62,11 @@ public class SelectCommand extends Command {
 
     @Override
     public void execute() {
-        model.markSelected(item);
+        model.setChanged();
+    }
+    
+    @Override
+    public boolean end() { 
+        return this.commandEnd;
     }
 }

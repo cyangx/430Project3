@@ -27,7 +27,15 @@ public class Polygon extends Item {
 
     @Override
     public boolean includes(Point point) {
-        return ((distance(point, firstPoint) < 10.0) || (distance(point, prevPoint) < 10.0));
+        //return ((distance(point, firstPoint) < 10.0) || (distance(point, prevPoint) < 10.0));
+        Point p;
+        for (int i = 0; i < this.points.size(); i++){
+            p = (Point) points.get(i);
+            if (distance(point, p) < 10.0){
+                return true;
+            }
+        } 
+        return false;       
     }
 
     @Override

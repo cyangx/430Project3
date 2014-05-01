@@ -24,12 +24,20 @@ public class NewSwingUI implements UIContext {
     public void setGraphics(Graphics graphics) {
         this.graphics = graphics;
     }
+    
+    @Override
+    public void draw(Point point){
+        graphics.drawRect(point.x - 5, point.y - 5, 10, 10);
+    }
 
     @Override
     public void draw(Label label) {
         if (label.getStartingPoint() != null) {
             if (label.getText() != null) {
                 graphics.drawString(label.getText(), (int) label.getStartingPoint().getX(), (int) label.getStartingPoint().getY());
+                if(label.selection()){
+                   this.draw(label.getStartingPoint()); 
+                }           
             }
         }
         int length = graphics.getFontMetrics().stringWidth(label.getText());
@@ -45,9 +53,15 @@ public class NewSwingUI implements UIContext {
         if (line.getPoint1() != null) {
             i1 = Math.round((float) (line.getPoint1().getX()));
             i2 = Math.round((float) (line.getPoint1().getY()));
+            if (line.selection()){
+                this.draw(line.getPoint1());
+            }
             if (line.getPoint2() != null) {
                 i3 = Math.round((float) (line.getPoint2().getX()));
                 i4 = Math.round((float) (line.getPoint2().getY()));
+                if(line.selection()){
+                    this.draw(line.getPoint2());
+                }
             } else {
                 i3 = i1;
                 i4 = i2;
@@ -68,10 +82,15 @@ public class NewSwingUI implements UIContext {
 
             i1 = Math.round((float) (ellipse.getPoint1().getX()));
             i2 = Math.round((float) (ellipse.getPoint1().getY()));
+            if (ellipse.selection()){
+                this.draw(ellipse.getPoint1());
+            }
             if (ellipse.getPoint2() != null) {
                 i3 = Math.round((float) (ellipse.getPoint2().getX()));
                 i4 = Math.round((float) (ellipse.getPoint2().getY()));
-
+                if (ellipse.selection()){
+                    this.draw(ellipse.getPoint2());
+                }
                 if (i3 >= i1 && i4 >= i2) {// Top left to bottom right
                     graphics2d.draw(new Ellipse2D.Double(i1, i2, i3 - i1, i4 - i2));
                     //graphics.drawLine(i1, i2, i1, i4);          //Tinker (Debug)
@@ -146,6 +165,9 @@ public class NewSwingUI implements UIContext {
                     y2 = y;
                 }
                 graphics.drawLine(x, y, x2, y2);
+                if (poly.selection()){
+                    this.draw(point2);
+                }
             }
         }
     }
