@@ -75,7 +75,6 @@ public class NewSwingUI implements UIContext {
         Graphics2D graphics2d = (Graphics2D) graphics;
 
         int i1 = 0, i2 = 0, i3 = 0, i4 = 0;
-        
 
         //Working normal code     
         if (ellipse.getPoint1() != null) {
@@ -115,7 +114,6 @@ public class NewSwingUI implements UIContext {
             }
         }
     }//End of draw ellipse
-
 
     /*
      * @author Cha Yang

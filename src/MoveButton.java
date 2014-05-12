@@ -26,12 +26,8 @@ public class MoveButton extends JButton implements ActionListener {
     }
     
     @Override
-    public void actionPerformed(ActionEvent e) {
-        //moveCommand = new MoveCommand();
-        
-        drawingPanel.addMouseListener(mouseHandler);
-        //undoManager.beginCommand(moveCommand);
-        //undoManager.endCommand(moveCommand);
+    public void actionPerformed(ActionEvent e) {        
+        drawingPanel.addMouseListener(mouseHandler);        
     }
     
     private class MouseHandler extends MouseAdapter {
